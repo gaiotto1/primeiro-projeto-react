@@ -9,7 +9,30 @@ export default class Main extends Component {
   state = {
     newRepo: '',
     repositories: [],
-    loading: false
+    loading: false,
+  };
+
+  // Carregar os dados do localstorage
+  componentDidMount() {
+    const repositories = localStorage.getItem('repositories');
+
+    if (repositories) {
+      this.setState({
+        repositories: JSON.parse(repositories),
+      });
+    }
+  }
+
+  // Salvar os dados do localstorage
+  componentDidUpdate(_, prevState) {
+    console.log('update', prevState);
+    const repositories = this.state;
+    if (prevState.repositories !== repositories) {
+      localStorage.setItem(
+        'repositories',
+        JSON.stringify(repositories.repositories)
+      );
+    }
   }
 
   handleInputChange = e => {
@@ -52,7 +75,11 @@ export default class Main extends Component {
             onChange={this.handleInputChange}
           />
           <SubmitButton loading={loading}>
-            {loading ? <FaSpinner color="fff" size={14} /> : <FaPlus color="#fff" size={14} />}
+            {loading ? (
+              <FaSpinner color="fff" size={14} />
+            ) : (
+              <FaPlus color="#fff" size={14} />
+            )}
           </SubmitButton>
         </Form>
 
