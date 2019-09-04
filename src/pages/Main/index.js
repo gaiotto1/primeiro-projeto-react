@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
 
 import api from '../../services/api';
+import { Container, Form, SubmitButton, List } from './styles';
 
-import { Container, Form, SubmitButton } from './styles';
 
 export default class Main extends Component {
   state = {
     newRepo: '',
     repositories: [],
     loading: false
-  };
+  }
 
   handleInputChange = e => {
     this.setState({ newRepo: e.target.value });
@@ -31,12 +31,12 @@ export default class Main extends Component {
     this.setState({
       repositories: [...this.state.repositories, data],
       newRepo: '',
-      loading: false
+      loading: false,
     });
   };
 
   render() {
-    const { newRepo, loading } = this.state;
+    const { newRepo, repositories, loading } = this.state;
     return (
       <Container>
         <h1>
@@ -55,6 +55,15 @@ export default class Main extends Component {
             {loading ? <FaSpinner color="fff" size={14} /> : <FaPlus color="#fff" size={14} />}
           </SubmitButton>
         </Form>
+
+        <List>
+          {repositories.map(repository => (
+            <li key={repository.name}>
+              <span>{repository.name}</span>
+              <a href="#teste">Detalhes</a>
+            </li>
+          ))}
+        </List>
       </Container>
     );
   }
